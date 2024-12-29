@@ -32,7 +32,6 @@ export const jobsSubmitController = async (req: Request, res: Response) => {
     await jobQueue.add("jobs", { jobId: job.jobId, visits: visits });
     res.status(201).json({ jobid: job.jobId });
   } catch (error: any) {
-    console.error("Error in jobsSubmitController:", error);
     if (error.name === "ZodError") {
       res
         .status(400)
@@ -74,7 +73,6 @@ export const jobStatusController = async (req: Request, res: Response) => {
     }
     res.status(200).json(response);
   } catch (error: any) {
-    console.error("Error in jobStatusController:", error);
     if (error.name === "ZodError") {
       res
         .status(400)

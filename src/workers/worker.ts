@@ -45,6 +45,7 @@ const worker = new Worker(
               errorMessage.push(`Invalid URL: ${url}`);
               continue;
             }
+
             let perimeter;
 
             try {
