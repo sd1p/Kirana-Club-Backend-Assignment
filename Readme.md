@@ -5,12 +5,12 @@ The jobs are then processed by a worker that processes images store by store, ca
 
 ## Assumptions
 
-- Error aggrigation condition in worker.js
+- Error aggregation conditions in worker.js:
     1. If StoreID is invalid
     2. If image_url length is 0
     3. If image_url is invalid
-    4. If invalid MIME type off url
-    5. If failed to fetch image from url
+    4. If MIME type of URL is invalid
+    5. If failed to fetch image from URL
     6. If failed to calculate image dimensions
 
 ## Installation and Setup
@@ -145,7 +145,7 @@ The jobs are then processed by a worker that processes images store by store, ca
 
 ## If given more time, what improvements will you do?
 
-- I would have implemented the service in golang, currently I am not proficient in golang but I am learning it.
+- I would have implemented the service in Go. Currently, I am not proficient in golang, but I am learning it.
 
 - I would have implemented a better error handling mechanism in the worker.js file.
 
