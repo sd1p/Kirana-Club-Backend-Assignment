@@ -53,17 +53,18 @@ const worker = new Worker(
               const contentType = response.headers["content-type"];
               if (!contentType.startsWith("image/")) {
                 errorMessage.push(`Invalid MIME type for URL: ${url}`);
-                continue;
+                continue; // skip to next url
               }
 
               const imageResponse = await axios.get(url, {
                 responseType: "arraybuffer",
               });
+
               const imageBuffer = Buffer.from(imageResponse.data);
               const dimensions = imageSize(imageBuffer);
               if (!dimensions || !dimensions.width || !dimensions.height) {
                 errorMessage.push(`Failed to get dimensions for URL: ${url}`);
-                return;
+                continue;
               }
               perimeter = 2 * (dimensions.width + dimensions.height);
             } catch (error) {
