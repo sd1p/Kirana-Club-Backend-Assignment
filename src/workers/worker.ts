@@ -7,12 +7,12 @@ import validator from "validator";
 const prisma = PrismaClientInstance.getPrismaClient();
 
 function processImage(imageUrl: string): number {
-  const height = 100;
-  const width = 200;
+  const height = 100; // assuming
+  const width = 200; // random values
 
   const perimeter = 2 * (height + width);
 
-  const sleepTime = Math.random() * (400 - 100) + 100;
+  const sleepTime = Math.random() * 300 + 100;
   sleep(sleepTime);
 
   return perimeter;
@@ -77,7 +77,7 @@ const worker = new Worker(
         );
       }
 
-      // errors
+      // pushing errors
       if (errorMessage.length > 0) {
         errorMessages.push({
           store_id: storeData.store_id,
@@ -126,9 +126,3 @@ worker.on("completed", (job) => {
 worker.on("failed", (job, err) => {
   console.log(`Job ${job?.id} has failed with ${err.message}`);
 });
-
-async function processVisits(visits: any[]) {
-  const errorMessages: string[] = [];
-
-  return errorMessages;
-}

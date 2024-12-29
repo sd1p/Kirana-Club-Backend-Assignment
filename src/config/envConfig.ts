@@ -1,6 +1,5 @@
 import dotenv from "dotenv";
 
-// Load environment variables from .env file
 dotenv.config();
 
 export const REDIS_HOST = process.env.REDIS_HOST || "localhost";
