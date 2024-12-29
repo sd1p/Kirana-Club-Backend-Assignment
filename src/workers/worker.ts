@@ -46,6 +46,9 @@ const worker = new Worker(
         if (!store) {
           errorMessage.push(`Store with ID not found`);
         } else {
+          if (storeData.image_url.length === 0) {
+            errorMessage.push(`No image URLs found`);
+          }
           for (const url of storeData.image_url || []) {
             if (!validator.isURL(url)) {
               errorMessage.push(`Invalid URL: ${url}`);
