@@ -4,19 +4,9 @@ import redisConfig from "../config/redisConfig";
 import { WORKER_CONCURRENCY } from "../config/envConfig";
 import axios from "axios";
 import validator from "validator";
+import imageSize from "image-size";
+
 const prisma = PrismaClientInstance.getPrismaClient();
-
-function processImage(imageUrl: string): number {
-  const height = 100; // assuming
-  const width = 200; // random values
-
-  const perimeter = 2 * (height + width);
-
-  const sleepTime = Math.random() * 300 + 100;
-  sleep(sleepTime);
-
-  return perimeter;
-}
 
 function sleep(ms: number) {
   const start = new Date().getTime();
@@ -49,11 +39,13 @@ const worker = new Worker(
           if (storeData.image_url.length === 0) {
             errorMessage.push(`No image URLs found`);
           }
+
           for (const url of storeData.image_url || []) {
             if (!validator.isURL(url)) {
               errorMessage.push(`Invalid URL: ${url}`);
               continue;
             }
+            let perimeter;
 
             try {
               const response = await axios.head(url);
@@ -62,12 +54,26 @@ const worker = new Worker(
                 errorMessage.push(`Invalid MIME type for URL: ${url}`);
                 continue;
               }
+
+              const imageResponse = await axios.get(url, {
+                responseType: "arraybuffer",
+              });
+              const imageBuffer = Buffer.from(imageResponse.data);
+              const dimensions = imageSize(imageBuffer);
+              if (!dimensions || !dimensions.width || !dimensions.height) {
+                errorMessage.push(`Failed to get dimensions for URL: ${url}`);
+                return;
+              }
+              perimeter = 2 * (dimensions.width + dimensions.height);
             } catch (error) {
               errorMessage.push(`Failed to fetch URL: ${url}`);
               continue;
             }
 
-            const perimeter = processImage(url);
+            // GPU Level Processing
+            const sleepTime = Math.random() * 300 + 100;
+            sleep(sleepTime);
+
             console.log(`Processed image ${url} with perimeter ${perimeter}`);
           }
         }
@@ -85,8 +91,6 @@ const worker = new Worker(
         });
       }
     }
-
-    console.log(errorMessages);
 
     if (errorMessages.length > 0) {
       await prisma.job.update({
