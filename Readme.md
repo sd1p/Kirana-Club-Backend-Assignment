@@ -20,7 +20,7 @@ The jobs are then processed by a worker that processes images store by store, ca
 1. Clone the repository
 
    ```sh
-    git clone https://github.com
+    git clone https://github.com/sd1p/Kirana-Club-Backend-Assignment
    ```
 
 2. Install dependencies
@@ -62,7 +62,7 @@ The jobs are then processed by a worker that processes images store by store, ca
 1. Clone the repository
 
    ```sh
-    git clone https://github.com
+    git clone https://github.com/sd1p/Kirana-Club-Backend-Assignment
    ```
 
 2. Add DATABASE_URL in docker-compose.yml
